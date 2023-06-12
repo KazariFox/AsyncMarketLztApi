@@ -8,6 +8,16 @@ class Payment:
     def __init__(self, wrapper: Wrapper) -> None:
         self.__wrapper = wrapper
 
+    async def generate_link(
+            self,
+            my_username: str,
+            amount: int,
+            comment: str="",
+            redirect: str=""
+    ):
+        """Generate payment link"""
+        return f"https://lzt.market/balance/transfer?username={my_username}&amount={amount}&comment={comment}&redirect={redirect}"
+
     async def make(
             self,
             amount: int,
