@@ -187,6 +187,9 @@ import lztmarket.Types as LZTMODELS
 LZTMODELS.Good
 LZTMODELS.Category
 LZTMODELS.Currency
+LZTMODELS.Guarantee
+LZTMODELS.ItemOrigin
+LZTMODELS.Mail
 LZTMODELS.PaymentType
 LZTMODELS.Profile
 LZTMODELS.TimeValues
