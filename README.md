@@ -82,6 +82,29 @@ accs = client.Goods.GenshinImpact.search()
 good = await client.Good.get(123123)
 ```
 
+#### Опубликовать
+```python
+from lztmarket.Types import Category, Currency, ItemOrigin, Guarantee
+
+await acc = await client.Good.add(
+        "Test", 
+        1000,
+        Category.VK.id,
+        Currency.RUB,
+        ItemOrigin.FIGHING,
+        Guarantee.HOURS12,
+
+        )
+```
+#### Добавить данные в новый лот
+```python
+await acc.check(login_password="skchlfpyuh@rambler.ru:1408945FHtwji")
+```
+#### Получить временную почту
+```python
+mail = await acc.add_to_unpublished()
+```
+
 #### Информция
 ```python
 print (await good.get_info())
