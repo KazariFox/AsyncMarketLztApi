@@ -143,3 +143,19 @@ await good.stick()
 ```python
 await good.unstick()
 ```
+
+### Модели
+```python
+import lztmarket.Types as LZTMODELS
+# Здесь описаны модели 
+# Позже хаос будет устранён.
+# Для каждого аккаунта в модуле Good будет создан свой датакласс.
+# На данный момент там есть несколько для примера.
+LZTMODELS.Good
+LZTMODELS.Category
+LZTMODELS.Currency
+LZTMODELS.PaymentType
+LZTMODELS.Profile
+LZTMODELS.TimeValues
+LZTMODELS.User10
+```
