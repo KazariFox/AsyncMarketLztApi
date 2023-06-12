@@ -41,6 +41,10 @@ from lztmarket.Types.PaymentModel import Payment
 history: List[Payment] = await client.Payment.history()
 
 ```
+#### Генерация ссылки на оплату
+```python
+link = await m.Payment.generate_link("Лисица", 10, 'test', 'https://google.com')
+```
 #### Совершить перевод
 ```python
 from lztmarket.Types import TimeValues
