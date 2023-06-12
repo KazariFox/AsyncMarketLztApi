@@ -15,4 +15,9 @@ class SocialClub(BaseGame):
         self.categ_id = self.categ_obj.id
 
     async def search(self, page: int = 1, pmin: int | None = None, pmax: int | None = None, title: str | None = None, parse_sticky_items: bool | None = None, parse_same_items: bool | None = None, game: list[int] | None = None, **kwargs) -> List[AccountManager]:
+        """rdr2 (boolean) - Has Red Dead Redemption 2
+
+gtav (boolean) - Has GTA 5
+
+daybreak (number) - Number of days the account has been offline"""
         return await super().search(page, pmin, pmax, title, parse_sticky_items, parse_same_items, game, **kwargs)

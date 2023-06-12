@@ -15,4 +15,15 @@ class Warface(BaseGame):
         self.categ_id = self.categ_obj.id
 
     async def search(self, page: int = 1, pmin: int | None = None, pmax: int | None = None, title: str | None = None, parse_sticky_items: bool | None = None, parse_same_items: bool | None = None, game: list[int] | None = None, **kwargs) -> List[AccountManager]:
+        """rank_min (number) - Minimum rank
+
+rank_max (number) - Maximum rank
+
+bonus_rank_min (number) - Minimum bonus rank
+
+bonus_rank_max (number) - Maximum bonus rank
+
+tel (boolean) - Has linked mobile
+
+daybreak (number) - Number of days the account has been offline"""
         return await super().search(page, pmin, pmax, title, parse_sticky_items, parse_same_items, game, **kwargs)
