@@ -1,0 +1,7 @@
+BRUTE = "brute"
+FIGHING = "fishing"
+STEALER = "stealer"
+AUTOREG = "autoreg"
+PERSONAL = "personal"
+RESALE = "RESALE"
+RETRIVE = "retrive"
