@@ -108,6 +108,9 @@ mail = await acc.add_to_unpublished()
 #### Информция
 ```python
 print (await good.get_info())
+# Полный json ответ можно посмотреть по
+data = await good.get_info()
+print(data.unfiltered_account_data)
 ```
 #### Покупка
 ```python
