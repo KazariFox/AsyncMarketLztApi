@@ -309,7 +309,7 @@ class AccountManager:
         )
         return Good.CATEG_AND_ACCOUNT[data['item']['category_id']].parse_obj(data['item'])
 
-    async def add_to_unpublished(self, resell_item_id : int=None) -> bool:
+    async def add_to_unpublished(self, resell_item_id : int=None) -> str:
         """Get info about not published item. For categories, which required temporary email (Steam, Social Club), you will get temporary email in response.
 
         Parameters:
@@ -327,7 +327,10 @@ class AccountManager:
             "get",
             params=params
         )
-        return  True if data['status'] == "ok" else False
+        self.__account_info = self.__parse_info(data)
+        self.__account_info.temp_email = data['temp_mail']
+
+        return data['temp_mail']
 
     async def check_for_publish(
             self,
