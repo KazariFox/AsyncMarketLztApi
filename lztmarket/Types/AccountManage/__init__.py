@@ -10,13 +10,25 @@ class AccountManager:
         self.__account_id = account_id
         self.__account_info = account_info
 
+    @property
+    def id(self):
+        return self.__account_id
+
+
+    def __parse_info(self, data) -> Good.Account:
+        if not data['item']['category_id'] in Good.CATEG_AND_ACCOUNT.keys():
+            res = Good.Account.parse_obj(data['item'])
+        else:
+            res = Good.CATEG_AND_ACCOUNT[data['item']['category_id']].parse_obj(data['item'])
+        res.unfiltered_account_data = data['item']
+        return res
+    
     async def __get_info(self) -> Good.Account:
         account_info_not_sorted = await self.__wraper._execute(
             f"/{self.__account_id}",
             "get"
         )
-
-        return Good.CATEG_AND_ACCOUNT[account_info_not_sorted['item']['category_id']].parse_obj(account_info_not_sorted['item'])
+        return self.__parse_info(account_info_not_sorted)
 
     async def get_info(self, recheck: bool = False) -> Good.Account:
         """
@@ -28,7 +40,8 @@ class AccountManager:
         :rtype: Good.Account
         """
         if not (self.__account_info and not recheck):
-            self.__account_info = await self.__get_info()
+            data = await self.__get_info()
+            self.__account_info.unfiltered_account_data = data
 
         if not self.__account_id:
             self.__account_id = self.__account_info.item_id
@@ -296,6 +309,62 @@ class AccountManager:
         )
         return Good.CATEG_AND_ACCOUNT[data['item']['category_id']].parse_obj(data['item'])
 
+    async def add_to_unpublished(self, resell_item_id : int=None) -> bool:
+        """Get info about not published item. For categories, which required temporary email (Steam, Social Club), you will get temporary email in response.
 
-# TODO Paymnet
-# Уже сделал даты в TimeValues
+        Parameters:
+
+        resell_item_id (optional) Put item id, if you are trying to resell item. 
+        This is useful to pass temporary email from reselling item to new item. 
+        You will get same temporary email from reselling account."""
+
+        params={}
+        if resell_item_id is not None:
+            params.update(resell_item_id=resell_item_id)
+        
+        data = self.__wraper._execute(
+            f"{self.id}/goods/add",
+            "get",
+            params=params
+        )
+        return  True if data['status'] == "ok" else False
+
+    async def check_for_publish(
+            self,
+            login: str=None,
+            password: str=None,
+            login_password: str=None,
+            close_item: bool=None,
+            extra: dict=None,
+            resell_item_id: int=None,
+            random_proxy: int=None
+    ) -> bool:
+        """Check account on validity. If account is valid, account will be published on the market.
+
+        Parameters:
+
+        login (optional) Account login (or email)
+        password (optional) Account password
+        login_password (optional) Account login data format login:password
+        close_item (optional) If set, the item will be closed item_state = closed
+        extra (optional) (Array) Extra params for account checking. E.g. you need to put cookies to extra[cookies] if you want to upload Fortnite/Epic Games account
+        resell_item_id Put if you are trying to resell an account.
+        random_proxy (optional) Pass 1, if you get "steam_captcha" in previous response"""
+        non_none_params = {k: v for k, v in locals().items() if v is not None and k != 'self'}
+        if 'extra' in non_none_params.keys():
+            del non_none_params['extra']
+        
+        params={}
+
+        params.update(**non_none_params)
+
+        if extra is not None:
+            for e in extra.keys():
+                params[f"extra[{e}]"] = extra[e]
+
+        unsorted_data = await self.__wraper._execute(
+            f"/{self.__account_id}/goods/check",
+            "post",
+            params=params
+        )
+        return  True if unsorted_data['status'] == "ok" else False
