@@ -1,0 +1,6 @@
+class TimeLimitReached(Exception):
+    ...
+
+
+class ApiError(Exception):
+    ...
