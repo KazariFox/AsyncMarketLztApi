@@ -1,0 +1,3 @@
+HOURS12 = -1
+HOURS24 = 0
+DAYS3 = 1
