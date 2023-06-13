@@ -169,7 +169,6 @@ class Payment:
         result = []
 
         for payment in un_sorted_data['payments'].keys():
-            print(payment)
             result.append(PaymentModel.Payment.parse_obj(un_sorted_data['payments'][payment]))
         
         return result
