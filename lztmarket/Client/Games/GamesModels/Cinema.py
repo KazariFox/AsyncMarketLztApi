@@ -1,6 +1,6 @@
 from typing import List
 
-from lztmarket.Types import Good
+
 from ....Types import Good, Category
 from .BaseGame import BaseGame
 from ....Types.AccountManage import AccountManager

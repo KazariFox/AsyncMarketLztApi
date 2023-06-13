@@ -3,7 +3,11 @@ from .Types import Category
 
 __all__ = (
     "__version__",
-    "MarketClient"
+    "MarketClient",
+    "ApiWrapper",
+    "Client",
+    "Types",
+    "Utils"
 )
 
 
