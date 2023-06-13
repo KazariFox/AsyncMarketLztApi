@@ -1,9 +1,14 @@
 # Async LZT market lib
 
+```python
+pip install lztmarketapi
+```
+
 #### Данная библиотека создана для взаимодействия с api lzt.market.
 #### Документация: [*Клик*](https://docs.api.zelenka.guru/?market)
 #### Требуется httpx & pydantic
 #### У маркета стоит ограничение на один запрос в 3 секунды. Если вы попытаетесь его нарушить - вылетит ошибка. Благодаря этому вы не получите бан по ip. Стоит лишь её ловить)
+
 
 
 
@@ -13,7 +18,7 @@
 ### Импорт и авторизация
 
 ```python
-from lztmarket import MarketClient
+from lztmarketapi import MarketClient
 
 TOKEN = "TOKEN"
 
@@ -25,7 +30,7 @@ print(client.can_send)
 
 ### Получение информации о себе
 ```python
-from lztmarket.Types.Profile import User
+from lztmarketapi.Types.Profile import User
 info: User = await client.Me.info()
 
 ```
@@ -35,7 +40,7 @@ info: User = await client.Me.info()
 
 ```python
 from typing import List
-from lztmarket.Types.PaymentModel import Payment
+from lztmarketapi.Types.PaymentModel import Payment
 
 # Информацию о параметрах смотреть в документации в коде.
 history: List[Payment] = await client.Payment.history()
@@ -47,8 +52,8 @@ link = await client.Payment.generate_link("Лисица", 10, 'test', 'https://g
 ```
 #### Совершить перевод
 ```python
-from lztmarket.Types import TimeValues
-from lztmarket.Types import Currency
+from lztmarketapi.Types import TimeValues
+from lztmarketapi.Types import Currency
 
 # Информацию о параметрах смотреть в документации в коде.
 await client.Payment.make(
@@ -88,7 +93,7 @@ good = await client.Good.get(123123)
 
 #### Опубликовать
 ```python
-from lztmarket.Types import Category, Currency, ItemOrigin, Guarantee
+from lztmarketapi.Types import Category, Currency, ItemOrigin, Guarantee
 
 await acc = await client.Good.add(
         "Test", 
@@ -183,7 +188,7 @@ await good.unstick()
 
 ### Модели
 ```python
-import lztmarket.Types as LZTMODELS
+import lztmarketapi.Types as LZTMODELS
 # Здесь описаны модели 
 # Позже хаос будет устранён.
 # Для каждого аккаунта в модуле Good будет создан свой датакласс.
