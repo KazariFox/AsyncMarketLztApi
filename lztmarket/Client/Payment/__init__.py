@@ -152,7 +152,7 @@ class Payment:
             params['wallet'] = wallet
 
         if comment:
-            comment['comment'] = comment
+            params['comment'] = comment
 
         if is_hold is not None:
             params['is_hold'] = int(is_hold)
