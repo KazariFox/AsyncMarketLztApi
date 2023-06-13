@@ -167,7 +167,8 @@ class Payment:
         )
 
         result = []
-
+        if not un_sorted_data['payments']:
+            return []
         for payment in un_sorted_data['payments'].keys():
             result.append(PaymentModel.Payment.parse_obj(un_sorted_data['payments'][payment]))
         
