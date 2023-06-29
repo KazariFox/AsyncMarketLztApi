@@ -12,27 +12,7 @@ logging.basicConfig(
 class Wrapper:
     """Class for sending requests to the server.
     """
-
-    __if_created = False
-
-    def __new__(cls, *args, **kwargs):
-        """Creates a new instance of the class.
-
-    Raises a warning if more than one instance of the class is created, as this can lead to IP blocking.
-
-    Args:
-    *args: positional arguments to be passed to the parent class constructor.
-    **kwargs: keyword arguments to be passed to the parent class constructor.
-
-    Returns:
-    An instance of the class.
-    """
-        if cls.__if_created:
-            logging.warning(
-                "Creating more than one instance of a class can lead to IP blocking.")
-
-        cls.__if_created = True
-        return super().__new__(cls)
+    _last_request_timestamp = None
 
     def __init__(self, api_key: str) -> None:
         """
@@ -44,7 +24,6 @@ class Wrapper:
 
         logging.debug("New instance of Wrapper created.")
         self._api_key = api_key
-        self._last_request_timestamp = None
         self._end_point = "https://api.lzt.market"
         self.client = httpx.AsyncClient()
 
@@ -54,13 +33,13 @@ class Wrapper:
                 raise TimeLimitReached(
                     "You cannot send a request at this time, as it will lead to a blocking of your ip address. "
                     "Please wait. Use the 'can_send' attribute to check if the request can be sent.")
-            self._last_request_timestamp = int(time.time())
+            Wrapper._last_request_timestamp = int(time.time())
             return await func(self, *args, **kwargs)
         return wrapper
 
     @property
     def can_send(self) -> bool:
-        return not (self._last_request_timestamp and int(time.time()) - self._last_request_timestamp < 4)
+        return not (Wrapper._last_request_timestamp and int(time.time()) - Wrapper._last_request_timestamp < 4)
 
     @__ip_block_protect
     async def _execute(self, path: str, method: str, params: dict = None, data: str = None):
